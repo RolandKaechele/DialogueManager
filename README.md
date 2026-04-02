@@ -14,7 +14,6 @@ A standalone Unity package for branching NPC dialogue, portrait display, typewri
 - **Optional** MapLoaderFramework bridge — auto-play `{mapId}_intro` sequences on map load
 - **Optional** SaveManager bridge — gate choices behind flags; mark sequences as seen
 
----
 
 ## Installation
 
@@ -37,7 +36,6 @@ npm install
 
 `postinstall.js` creates the required runtime folders under `Assets/`.
 
----
 
 ## Folder Structure
 
@@ -65,7 +63,6 @@ DialogueManager/
 └── README.md
 ```
 
----
 
 ## Quick Start
 
@@ -74,6 +71,7 @@ DialogueManager/
 Add `DialogueManager`, `DialogueBoxController`, and `PortraitController` components to a persistent GameObject.
 
 Wire them up in the Inspector:
+
 - **DialogueManager** → assign `DialogueBox` and `Portraits` references
 - **DialogueBoxController** → assign `panel`, `speakerNameText`, `bodyText`, `choiceContainer`, `choiceButtonPrefab`
 - **PortraitController** → assign `leftPortrait` and `rightPortrait` Image references
@@ -130,7 +128,7 @@ dm.OnDialogueCompleted += id => Debug.Log($"Dialogue {id} done.");
 Add `DialogueTrigger` to any scene object:
 
 | Field | Description |
-|-------|-------------|
+| ----- | ----------- |
 | `Sequence Id` | ID of the sequence to play |
 | `Trigger Mode` | `OnStart`, `OnTriggerEnter`, or `OnInteract` |
 | `Play Once` | Skip if already played |
@@ -138,14 +136,13 @@ Add `DialogueTrigger` to any scene object:
 | `Set Flag On Complete` | Set this SaveManager flag when done |
 | `Trigger Tag` | Collider tag filter (default: `"Player"`) |
 
----
 
 ## Dialogue JSON Format
 
 ### DialogueSequence Fields
 
 | Field | Type | Description |
-|-------|------|-------------|
+| ----- | ---- | ----------- |
 | `id` | string | Unique sequence identifier |
 | `label` | string | Display name (Editor only) |
 | `startNodeId` | string | ID of the first node to play |
@@ -155,7 +152,7 @@ Add `DialogueTrigger` to any scene object:
 ### DialogueNode Fields
 
 | Field | Type | Description |
-|-------|------|-------------|
+| ----- | ---- | ----------- |
 | `id` | string | Unique node ID within the sequence |
 | `speakerName` | string | Speaker display name |
 | `speakerLocalizationKey` | string | Localization key override for speaker name |
@@ -173,14 +170,13 @@ Add `DialogueTrigger` to any scene object:
 ### DialogueChoice Fields
 
 | Field | Type | Description |
-|-------|------|-------------|
+| ----- | ---- | ----------- |
 | `text` | string | Choice button label |
 | `localizationKey` | string | Localization key override |
 | `nextNodeId` | string | Node to jump to when selected |
 | `condition` | string | Flag name; choice is hidden if `ConditionCheck(flag)` returns false |
 | `flagToSet` | string | Flag to set via `FlagSetCallback` when this choice is selected |
 
----
 
 ## MapLoaderFramework Integration
 
@@ -194,7 +190,7 @@ If found — and if `firstVisitOnly` is true, only if the sequence has not been 
 ### Inspector Fields
 
 | Field | Default | Description |
-|-------|---------|-------------|
+| ----- | ------- | ----------- |
 | `Intro Suffix` | `"_intro"` | Appended to map ID to form the sequence ID |
 | `First Visit Only` | `true` | Only play if `"dialogue_seen_{introId}"` flag is not set |
 
@@ -202,7 +198,6 @@ If found — and if `firstVisitOnly` is true, only if the sequence has not been 
 
 Map ID `station_alpha` → sequence ID `station_alpha_intro` plays on first entry.
 
----
 
 ## SaveManager Integration
 
@@ -216,14 +211,13 @@ Add `SaveDialogueBridge` to the same GameObject.
 
 This allows choices to be gated behind quest flags and prevents repeated intro sequences.
 
----
 
 ## Runtime API
 
 ### DialogueManager
 
 | Member | Description |
-|--------|-------------|
+| ------ | ----------- |
 | `PlayDialogue(string id)` | Play sequence by ID |
 | `PlayDialogue(DialogueSequence seq)` | Play sequence directly |
 | `StopDialogue()` | Interrupt and hide dialogue box |
@@ -240,7 +234,7 @@ This allows choices to be gated behind quest flags and prevents repeated intro s
 ### DialogueTrigger
 
 | Member | Description |
-|--------|-------------|
+| ------ | ----------- |
 | `Trigger()` | Manually fire the trigger |
 | `sequenceId` | Sequence to play |
 | `playOnce` | Whether to fire only once |
@@ -250,7 +244,7 @@ This allows choices to be gated behind quest flags and prevents repeated intro s
 ### PortraitController
 
 | Member | Description |
-|--------|-------------|
+| ------ | ----------- |
 | `ShowPortrait(string path, string side)` | Load and display portrait sprite |
 | `HidePortrait(string side)` | Hide one side |
 | `HideAll()` | Hide both sides |
@@ -258,7 +252,7 @@ This allows choices to be gated behind quest flags and prevents repeated intro s
 ### DialogueBoxController
 
 | Member | Description |
-|--------|-------------|
+| ------ | ----------- |
 | `Show(string speaker, string text, List<DialogueChoice> choices)` | Display node |
 | `Hide()` | Hide the dialogue box |
 | `SkipTypewriter()` | Instantly complete the typewriter effect |
@@ -267,7 +261,7 @@ This allows choices to be gated behind quest flags and prevents repeated intro s
 ### MapLoaderDialogueBridge
 
 | Member | Description |
-|--------|-------------|
+| ------ | ----------- |
 | `introSuffix` | Suffix appended to map ID (default `"_intro"`) |
 | `firstVisitOnly` | Skip if `"dialogue_seen_{introId}"` flag is set |
 
@@ -275,7 +269,6 @@ This allows choices to be gated behind quest flags and prevents repeated intro s
 
 Wires automatically on Awake. No public API surface beyond Inspector fields.
 
----
 
 ## Examples
 
@@ -283,24 +276,21 @@ See `Examples/Dialogues/example_npc_dialogue.json` for a complete branching dial
 
 See `Examples/Scripts/example_dialogue_trigger.lua` for a Lua-side example of playing a dialogue and checking the seen flag.
 
----
 
 ## Dependencies
 
 | Dependency | Role |
-|------------|------|
+| ---------- | ---- |
 | Unity 2022.3+ | Required |
 | TextMeshPro | Optional — used by DialogueBoxController if present |
 | MapLoaderFramework | Optional — enable `DIALOGUEMANAGER_MLF` |
 | SaveManager | Optional — enable `DIALOGUEMANAGER_SM` |
 
----
 
 ## Repository
 
 `https://github.com/rolandkaechele/com.rolandkaechele.dialoguemanager`
 
----
 
 ## License
 
