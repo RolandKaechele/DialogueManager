@@ -76,6 +76,15 @@ namespace DialogueManager.Runtime
         /// </summary>
         public Action<string, bool> PlayAudioCallback;
 
+        /// <summary>
+        /// Optional resolver for localized text.
+        /// Signature: (localizationKey) → translated string.
+        /// When set, node speaker names, dialogue text, and choice labels are resolved
+        /// through this delegate using their respective localization key fields before display.
+        /// Set by <c>LocalizationDialogueBridge</c>.
+        /// </summary>
+        public Func<string, string> TextResolver;
+
         // -------------------------------------------------------------------------
         // State
         // -------------------------------------------------------------------------
@@ -245,6 +254,11 @@ namespace DialogueManager.Runtime
             FinishSequence(sequence.id);
         }
 
+        private string ResolveText(string locKey, string fallback) =>
+            (!string.IsNullOrEmpty(locKey) && TextResolver != null)
+                ? TextResolver(locKey) ?? fallback
+                : fallback;
+
         private IEnumerator ShowNode(DialogueNode node, string sequenceId)
         {
             OnNodeShown?.Invoke(sequenceId, node.id);
@@ -273,7 +287,23 @@ namespace DialogueManager.Runtime
                                 (ConditionCheck?.Invoke(c.condition) ?? true))
                     .ToList();
 
-                dialogueBoxController.Show(node.speakerName, node.text, visibleChoices);
+                string displaySpeaker = ResolveText(node.speakerLocalizationKey, node.speakerName);
+                string displayText    = ResolveText(node.textLocalizationKey,    node.text);
+
+                List<DialogueChoice> displayChoices = visibleChoices;
+                if (visibleChoices != null && TextResolver != null)
+                {
+                    displayChoices = visibleChoices.Select(c => new DialogueChoice
+                    {
+                        text            = ResolveText(c.localizationKey, c.text),
+                        localizationKey = c.localizationKey,
+                        nextNodeId      = c.nextNodeId,
+                        condition       = c.condition,
+                        flagToSet       = c.flagToSet,
+                    }).ToList();
+                }
+
+                dialogueBoxController.Show(displaySpeaker, displayText, displayChoices);
             }
 
             // Wait

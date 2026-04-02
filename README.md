@@ -13,6 +13,8 @@ A standalone Unity package for branching NPC dialogue, portrait display, typewri
 - `DialogueTrigger` component for scene-level triggers (OnStart, OnTriggerEnter, OnInteract)
 - **Optional** MapLoaderFramework bridge — auto-play `{mapId}_intro` sequences on map load
 - **Optional** SaveManager bridge — gate choices behind flags; mark sequences as seen
+- **Optional** LocalizationManager bridge — wire `TextResolver` to instantly localize all node text, speaker names, and choice labels (activated via `DIALOGUEMANAGER_LM`)
+- **Optional** InventoryManager bridge — resolve `has_item:` choice conditions against the player inventory (activated via `DIALOGUEMANAGER_IM`)
 
 
 ## Installation
@@ -48,7 +50,9 @@ DialogueManager/
 │   ├── PortraitController.cs        # Left / right portrait Image display
 │   ├── DialogueBoxController.cs     # Typewriter text + choice buttons
 │   ├── MapLoaderDialogueBridge.cs   # Optional: MLF integration
-│   └── SaveDialogueBridge.cs        # Optional: SaveManager integration
+│   ├── SaveDialogueBridge.cs        # Optional: SaveManager integration
+│   ├── LocalizationDialogueBridge.cs # Optional: LocalizationManager integration
+│   └── InventoryDialogueBridge.cs   # Optional: InventoryManager integration
 ├── Editor/
 │   ├── DialogueManagerEditor.cs     # Custom inspector for DialogueManager
 │   └── DialogueTriggerEditor.cs     # Custom inspector for DialogueTrigger
@@ -212,6 +216,67 @@ Add `SaveDialogueBridge` to the same GameObject.
 This allows choices to be gated behind quest flags and prevents repeated intro sequences.
 
 
+## LocalizationManager Integration
+
+Enable the scripting define `DIALOGUEMANAGER_LM` in Unity Player Settings.
+
+Add `LocalizationDialogueBridge` to the same GameObject.
+
+The bridge wires `DialogueManager.TextResolver = key => LocalizationManager.GetText(key)`. Before every node is displayed, `DialogueManager` calls `TextResolver` to resolve `speakerLocalizationKey → speakerName`, `textLocalizationKey → text`, and each choice's `localizationKey → text`. The fallback is always the raw field value, so nodes without localization keys continue to work unchanged.
+
+### Example node with localization keys
+
+```json
+{
+  "id": "node_01",
+  "speakerName": "Kosta",
+  "speakerLocalizationKey": "npc.kosta.name",
+  "text": "Jan! Finally you made it.",
+  "textLocalizationKey": "dialogue.intro_kosta.node_01",
+  "choices": [
+    {
+      "text": "What happened here?",
+      "localizationKey": "dialogue.intro_kosta.choice_01",
+      "nextNodeId": "node_02"
+    }
+  ]
+}
+```
+
+
+## InventoryManager Integration
+
+Enable the scripting define `DIALOGUEMANAGER_IM` in Unity Player Settings.
+
+Add `InventoryDialogueBridge` to the same GameObject.
+
+The bridge chains into `DialogueManager.ConditionCheck`. Conditions prefixed with `"has_item:"` are resolved against the player inventory; all others are forwarded to the previously-registered handler (chain pattern — safe to combine with `SaveDialogueBridge`).
+
+### Condition format
+
+| Condition string | Requirement |
+| ---------------- | ----------- |
+| `"has_item:sword"` | Player carries ≥ 1 `sword` |
+| `"has_item:sword:3"` | Player carries ≥ 3 `sword` |
+
+### Example choice
+
+```json
+{
+  "text": "I can fix that — I have the part.",
+  "localizationKey": "dialogue.choice_has_part",
+  "nextNodeId": "node_repair",
+  "condition": "has_item:reactor_part"
+}
+```
+
+### Inspector Fields
+
+| Field | Default | Description |
+| ----- | ------- | ----------- |
+| `Condition Prefix` | `"has_item:"` | Prefix that marks a condition as an inventory check |
+
+
 ## Runtime API
 
 ### DialogueManager
@@ -230,6 +295,7 @@ This allows choices to be gated behind quest flags and prevents repeated intro s
 | `ConditionCheck` | `Func<string, bool>` — evaluate flag condition |
 | `FlagSetCallback` | `Action<string>` — set a flag by name |
 | `PlayAudioCallback` | `Action<string, bool>` — play audio (resourcePath, loop) |
+| `TextResolver` | `Func<string, string>` — optional localization resolver; called with a localization key, returns translated text. Set by `LocalizationDialogueBridge`. |
 
 ### DialogueTrigger
 
@@ -269,6 +335,16 @@ This allows choices to be gated behind quest flags and prevents repeated intro s
 
 Wires automatically on Awake. No public API surface beyond Inspector fields.
 
+### LocalizationDialogueBridge *(requires `DIALOGUEMANAGER_LM`)*
+
+Wires `DialogueManager.TextResolver` on Awake. No further configuration required.
+
+### InventoryDialogueBridge *(requires `DIALOGUEMANAGER_IM`)*
+
+| Member | Description |
+| ------ | ----------- |
+| `conditionPrefix` | Inspector — prefix marking a condition as an inventory check (default: `"has_item:"`) |
+
 
 ## Examples
 
@@ -285,6 +361,8 @@ See `Examples/Scripts/example_dialogue_trigger.lua` for a Lua-side example of pl
 | TextMeshPro | Optional — used by DialogueBoxController if present |
 | MapLoaderFramework | Optional — enable `DIALOGUEMANAGER_MLF` |
 | SaveManager | Optional — enable `DIALOGUEMANAGER_SM` |
+| LocalizationManager | Optional — enable `DIALOGUEMANAGER_LM` |
+| InventoryManager | Optional — enable `DIALOGUEMANAGER_IM` |
 
 
 ## Repository
