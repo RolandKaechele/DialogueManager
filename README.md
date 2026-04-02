@@ -15,6 +15,8 @@ A standalone Unity package for branching NPC dialogue, portrait display, typewri
 - **Optional** SaveManager bridge — gate choices behind flags; mark sequences as seen
 - **Optional** LocalizationManager bridge — wire `TextResolver` to instantly localize all node text, speaker names, and choice labels (activated via `DIALOGUEMANAGER_LM`)
 - **Optional** InventoryManager bridge — resolve `has_item:` choice conditions against the player inventory (activated via `DIALOGUEMANAGER_IM`)
+- **Optional** MiniGameManager bridge — resolve `minigame_completed:` / `minigame_active:` choice conditions against mini-game state (activated via `DIALOGUEMANAGER_MGM`)
+- **Optional** DlcManager bridge — resolve `has_dlc:` choice conditions against DLC pack ownership (activated via `DIALOGUEMANAGER_DLC`)
 
 
 ## Installation
@@ -53,6 +55,8 @@ DialogueManager/
 │   ├── SaveDialogueBridge.cs        # Optional: SaveManager integration
 │   ├── LocalizationDialogueBridge.cs # Optional: LocalizationManager integration
 │   └── InventoryDialogueBridge.cs   # Optional: InventoryManager integration
+│   ├── MiniGameDialogueBridge.cs    # Optional: MiniGameManager integration
+│   └── DlcDialogueBridge.cs         # Optional: DlcManager integration
 ├── Editor/
 │   ├── DialogueManagerEditor.cs     # Custom inspector for DialogueManager
 │   └── DialogueTriggerEditor.cs     # Custom inspector for DialogueTrigger
@@ -345,6 +349,23 @@ Wires `DialogueManager.TextResolver` on Awake. No further configuration required
 | ------ | ----------- |
 | `conditionPrefix` | Inspector — prefix marking a condition as an inventory check (default: `"has_item:"`) |
 
+### MiniGameDialogueBridge *(requires `DIALOGUEMANAGER_MGM`)*
+
+Chains into `ConditionCheck`. Prefix `"minigame_completed:"` checks whether the named mini-game has been completed; `"minigame_active:"` checks whether it is currently running.
+
+| Condition | Evaluates to true when... |
+| --------- | ------------------------- |
+| `"minigame_completed:puzzle_01"` | mini-game `puzzle_01` has been completed |
+| `"minigame_active:puzzle_01"` | mini-game `puzzle_01` is currently running |
+
+### DlcDialogueBridge *(requires `DIALOGUEMANAGER_DLC`)*
+
+Chains into `ConditionCheck`. Prefix `"has_dlc:"` resolves against DlcManager pack ownership.
+
+| Condition | Evaluates to true when... |
+| --------- | ------------------------- |
+| `"has_dlc:season_pass"` | the player owns the `season_pass` DLC pack |
+
 
 ## Examples
 
@@ -363,6 +384,8 @@ See `Examples/Scripts/example_dialogue_trigger.lua` for a Lua-side example of pl
 | SaveManager | Optional — enable `DIALOGUEMANAGER_SM` |
 | LocalizationManager | Optional — enable `DIALOGUEMANAGER_LM` |
 | InventoryManager | Optional — enable `DIALOGUEMANAGER_IM` |
+| MiniGameManager | Optional — enable `DIALOGUEMANAGER_MGM` |
+| DlcManager | Optional — enable `DIALOGUEMANAGER_DLC` |
 
 
 ## Repository
