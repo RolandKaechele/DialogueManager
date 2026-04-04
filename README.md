@@ -17,6 +17,7 @@ A standalone Unity package for branching NPC dialogue, portrait display, typewri
 - **Optional** InventoryManager bridge — resolve `has_item:` choice conditions against the player inventory (activated via `DIALOGUEMANAGER_IM`)
 - **Optional** MiniGameManager bridge — resolve `minigame_completed:` / `minigame_active:` choice conditions against mini-game state (activated via `DIALOGUEMANAGER_MGM`)
 - **Optional** DlcManager bridge — resolve `has_dlc:` choice conditions against DLC pack ownership (activated via `DIALOGUEMANAGER_DLC`)
+- **StateManager integration** — `Dialogue` state is pushed when a dialogue starts and popped on complete by StateManager's `DialogueManagerBridge` (consumed via `STATEMANAGER_DM`)
 
 
 ## Installation
