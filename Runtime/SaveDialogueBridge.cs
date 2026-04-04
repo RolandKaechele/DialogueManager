@@ -1,3 +1,5 @@
+#if DIALOGUEMANAGER_SM
+using SaveManager.Runtime;
 using UnityEngine;
 
 namespace DialogueManager.Runtime
@@ -14,21 +16,18 @@ namespace DialogueManager.Runtime
     /// enabling once-per-save dialogue gating.</item>
     /// </list>
     /// </para>
-    /// <para>Without the scripting symbol this component compiles as a no-op stub.</para>
     /// </summary>
     [AddComponentMenu("DialogueManager/Save Dialogue Bridge")]
     [DisallowMultipleComponent]
     public class SaveDialogueBridge : MonoBehaviour
     {
-#if DIALOGUEMANAGER_SM
         private DialogueManager _dialogue;
-        private SaveManager.Runtime.SaveManager _save;
+        private SaveManager _save;
 
         private void Awake()
         {
             _dialogue = GetComponent<DialogueManager>() ?? FindObjectOfType<DialogueManager>();
-            _save     = GetComponent<SaveManager.Runtime.SaveManager>()
-                        ?? FindObjectOfType<SaveManager.Runtime.SaveManager>();
+            _save     = GetComponent<SaveManager>() ?? FindObjectOfType<SaveManager>();
 
             if (_dialogue == null)
             {
@@ -60,12 +59,6 @@ namespace DialogueManager.Runtime
             // Record that this dialogue has been seen
             _save?.SetFlag($"dialogue_seen_{sequenceId}");
         }
-#else
-        private void Awake()
-        {
-            Debug.Log("[SaveDialogueBridge] SaveManager integration is disabled. " +
-                      "Add the scripting define DIALOGUEMANAGER_SM to enable it.");
-        }
-#endif
     }
 }
+#endif

@@ -1,3 +1,5 @@
+#if DIALOGUEMANAGER_MLF
+using MapLoaderFramework.Runtime;
 using UnityEngine;
 
 namespace DialogueManager.Runtime
@@ -12,15 +14,13 @@ namespace DialogueManager.Runtime
     /// <c>"{mapId}_intro"</c> if one exists — useful for map-entry cutscene dialogues.</item>
     /// </list>
     /// </para>
-    /// <para>Without the scripting symbol this component compiles as a no-op stub.</para>
     /// </summary>
     [AddComponentMenu("DialogueManager/Map Loader Dialogue Bridge")]
     [DisallowMultipleComponent]
     public class MapLoaderDialogueBridge : MonoBehaviour
     {
-#if DIALOGUEMANAGER_MLF
         private DialogueManager _dialogue;
-        private MapLoaderFramework.Runtime.MapLoaderFramework _framework;
+        private MapLoaderFramework _framework;
 
         [Tooltip("Suffix appended to the map id to look up the intro dialogue (e.g. '_intro').")]
         [SerializeField] private string introSuffix = "_intro";
@@ -31,8 +31,7 @@ namespace DialogueManager.Runtime
         private void Awake()
         {
             _dialogue  = GetComponent<DialogueManager>() ?? FindObjectOfType<DialogueManager>();
-            _framework = GetComponent<MapLoaderFramework.Runtime.MapLoaderFramework>()
-                         ?? FindObjectOfType<MapLoaderFramework.Runtime.MapLoaderFramework>();
+            _framework = GetComponent<MapLoaderFramework>() ?? FindObjectOfType<MapLoaderFramework>();
 
             if (_dialogue == null)
             {
@@ -57,7 +56,7 @@ namespace DialogueManager.Runtime
                 _framework.OnMapLoaded -= OnMapLoaded;
         }
 
-        private void OnMapLoaded(MapLoaderFramework.Runtime.MapData mapData)
+        private void OnMapLoaded(MapData mapData)
         {
             if (mapData == null) return;
 
@@ -74,12 +73,6 @@ namespace DialogueManager.Runtime
 
             _dialogue.PlayDialogue(introId);
         }
-#else
-        private void Awake()
-        {
-            Debug.Log("[MapLoaderDialogueBridge] MapLoaderFramework integration is disabled. " +
-                      "Add the scripting define DIALOGUEMANAGER_MLF to enable it.");
-        }
-#endif
     }
 }
+#endif
