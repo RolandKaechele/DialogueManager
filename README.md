@@ -18,6 +18,7 @@ A standalone Unity package for branching NPC dialogue, portrait display, typewri
 - **Optional** MiniGameManager bridge — resolve `minigame_completed:` / `minigame_active:` choice conditions against mini-game state (activated via `DIALOGUEMANAGER_MGM`)
 - **Optional** DlcManager bridge — resolve `has_dlc:` choice conditions against DLC pack ownership (activated via `DIALOGUEMANAGER_DLC`)
 - **StateManager integration** — `Dialogue` state is pushed when a dialogue starts and popped on complete by StateManager's `DialogueManagerBridge` (consumed via `STATEMANAGER_DM`)
+- **Odin Inspector integration** — `SerializedMonoBehaviour` base for full Inspector serialization of complex types; runtime-display fields marked `[ReadOnly]` in Play Mode (activated via `ODIN_INSPECTOR`)
 
 
 ## Installation
@@ -387,6 +388,7 @@ See `Examples/Scripts/example_dialogue_trigger.lua` for a Lua-side example of pl
 | InventoryManager | Optional — enable `DIALOGUEMANAGER_IM` |
 | MiniGameManager | Optional — enable `DIALOGUEMANAGER_MGM` |
 | DlcManager | Optional — enable `DIALOGUEMANAGER_DLC` |
+| Odin Inspector | Optional — enable `ODIN_INSPECTOR` |
 
 
 ## Repository

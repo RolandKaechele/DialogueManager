@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+#if ODIN_INSPECTOR
+using Sirenix.OdinInspector;
+#endif
 
 namespace DialogueManager.Runtime
 {
@@ -26,7 +29,11 @@ namespace DialogueManager.Runtime
     /// </summary>
     [AddComponentMenu("DialogueManager/Dialogue Manager")]
     [DisallowMultipleComponent]
+#if ODIN_INSPECTOR
+    public class DialogueManager : SerializedMonoBehaviour
+#else
     public class DialogueManager : MonoBehaviour
+#endif
     {
         // -------------------------------------------------------------------------
         // Inspector
@@ -37,6 +44,9 @@ namespace DialogueManager.Runtime
         [SerializeField] private PortraitController     portraitController;
 
         [Header("Loaded sequences (read-only)")]
+#if ODIN_INSPECTOR
+        [ReadOnly]
+#endif
         [SerializeField] private List<string> loadedSequenceIds = new();
 
         // -------------------------------------------------------------------------
