@@ -18,6 +18,7 @@ A standalone Unity package for branching NPC dialogue, portrait display, typewri
 - **Optional** MiniGameManager bridge — resolve `minigame_completed:` / `minigame_active:` choice conditions against mini-game state (activated via `DIALOGUEMANAGER_MGM`)
 - **Optional** DlcManager bridge — resolve `has_dlc:` choice conditions against DLC pack ownership (activated via `DIALOGUEMANAGER_DLC`)
 - **StateManager integration** — `Dialogue` state is pushed when a dialogue starts and popped on complete by StateManager's `DialogueManagerBridge` (consumed via `STATEMANAGER_DM`)
+- **DOTween Pro integration** — `CanvasGroup.DOFade` and `RectTransform.DOAnchorPos` drive dialogue box fade-in/fade-out and portrait slide-in animations on sequence start/end and node show (activated via `DIALOGUEMANAGER_DOTWEEN`)
 - **Odin Inspector integration** — `SerializedMonoBehaviour` base for full Inspector serialization of complex types; runtime-display fields marked `[ReadOnly]` in Play Mode (activated via `ODIN_INSPECTOR`)
 
 
