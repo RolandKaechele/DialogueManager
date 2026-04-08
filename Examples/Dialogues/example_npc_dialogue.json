@@ -1,65 +1,65 @@
 {
-  "id": "npc_engineer_intro",
-  "label": "Engineer Kosta — First Meeting",
-  "startNodeId": "node_01",
-  "canBeRepeated": false,
-  "nodes": [
-    {
-      "id": "node_01",
-      "speakerName": "Engineer Kosta",
-      "speakerLocalizationKey": "npc.kosta.name",
-      "text": "You must be the new commander. I'm Kosta — chief engineer aboard this station.",
-      "textLocalizationKey": "dialogue.kosta_intro.01",
-      "portraitResource": "Portraits/kosta_neutral",
-      "portraitSide": "left",
-      "waitForInput": true,
-      "nextNodeId": "node_02"
-    },
-    {
-      "id": "node_02",
-      "speakerName": "Engineer Kosta",
-      "speakerLocalizationKey": "npc.kosta.name",
-      "text": "Have you come to repair the reactor, or are you here about the distress signal?",
-      "textLocalizationKey": "dialogue.kosta_intro.02",
-      "portraitResource": "Portraits/kosta_worried",
-      "portraitSide": "left",
-      "waitForInput": true,
-      "choices": [
-        {
-          "text": "Tell me about the reactor.",
-          "localizationKey": "dialogue.kosta_intro.choice_reactor",
-          "nextNodeId": "node_reactor",
-          "flagToSet": ""
-        },
-        {
-          "text": "What distress signal?",
-          "localizationKey": "dialogue.kosta_intro.choice_signal",
-          "nextNodeId": "node_signal",
-          "flagToSet": "asked_about_signal"
-        }
-      ]
-    },
-    {
-      "id": "node_reactor",
-      "speakerName": "Engineer Kosta",
-      "speakerLocalizationKey": "npc.kosta.name",
-      "text": "The reactor core is overloading. We have maybe two hours before it blows.",
-      "textLocalizationKey": "dialogue.kosta_intro.reactor",
-      "portraitResource": "Portraits/kosta_scared",
-      "portraitSide": "left",
-      "waitForInput": true,
-      "nextNodeId": ""
-    },
-    {
-      "id": "node_signal",
-      "speakerName": "Engineer Kosta",
-      "speakerLocalizationKey": "npc.kosta.name",
-      "text": "Came in three days ago. We couldn't decode it, but it matched the pattern from Wega 5.",
-      "textLocalizationKey": "dialogue.kosta_intro.signal",
-      "portraitResource": "Portraits/kosta_neutral",
-      "portraitSide": "left",
-      "waitForInput": true,
-      "nextNodeId": ""
-    }
-  ]
+    "id":  "npc_engineer_intro",
+    "label":  "Engineer Kosta — First Meeting",
+    "startNodeId":  "node_01",
+    "canBeRepeated":  false,
+    "nodes":  [
+                  {
+                      "id":  "node_01",
+                      "speakerName":  "Engineer Kosta",
+                      "speakerLocalizationKey":  "npc.kosta.name",
+                      "text":  "You must be the new commander. I\u0027m Kosta — chief engineer aboard this station.",
+                      "textLocalizationKey":  "dialogue.kosta_intro.01",
+                      "portraitResource":  "Portraits/kosta_neutral",
+                      "portraitSide":  "left",
+                      "waitForInput":  true,
+                      "nextNodeId":  "node_02"
+                  },
+                  {
+                      "id":  "node_02",
+                      "speakerName":  "Engineer Kosta",
+                      "speakerLocalizationKey":  "npc.kosta.name",
+                      "text":  "Have you come to repair the reactor, or are you here about the distress signal?",
+                      "textLocalizationKey":  "dialogue.kosta_intro.02",
+                      "portraitResource":  "Portraits/kosta_worried",
+                      "portraitSide":  "left",
+                      "waitForInput":  true,
+                      "choices":  [
+                                      {
+                                          "text":  "Tell me about the reactor.",
+                                          "localizationKey":  "dialogue.kosta_intro.choice_reactor",
+                                          "nextNodeId":  "node_reactor",
+                                          "flagToSet":  ""
+                                      },
+                                      {
+                                          "text":  "What distress signal?",
+                                          "localizationKey":  "dialogue.kosta_intro.choice_signal",
+                                          "nextNodeId":  "node_signal",
+                                          "flagToSet":  "asked_about_signal"
+                                      }
+                                  ]
+                  },
+                  {
+                      "id":  "node_reactor",
+                      "speakerName":  "Engineer Kosta",
+                      "speakerLocalizationKey":  "npc.kosta.name",
+                      "text":  "The reactor core is overloading. We have maybe two hours before it blows.",
+                      "textLocalizationKey":  "dialogue.kosta_intro.reactor",
+                      "portraitResource":  "Portraits/kosta_scared",
+                      "portraitSide":  "left",
+                      "waitForInput":  true,
+                      "nextNodeId":  ""
+                  },
+                  {
+                      "id":  "node_signal",
+                      "speakerName":  "Engineer Kosta",
+                      "speakerLocalizationKey":  "npc.kosta.name",
+                      "text":  "Came in three days ago. We couldn\u0027t decode it, but it matched the pattern from Wega 5.",
+                      "textLocalizationKey":  "dialogue.kosta_intro.signal",
+                      "portraitResource":  "Portraits/kosta_neutral",
+                      "portraitSide":  "left",
+                      "waitForInput":  true,
+                      "nextNodeId":  ""
+                  }
+              ]
 }
