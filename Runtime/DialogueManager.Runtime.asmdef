@@ -1,7 +1,9 @@
 ﻿{
     "name": "DialogueManager.Runtime",
     "rootNamespace": "DialogueManager.Runtime",
-    "references": [],
+    "references": [
+        "Unity.TextMeshPro"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
