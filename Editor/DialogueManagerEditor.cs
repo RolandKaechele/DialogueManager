@@ -16,6 +16,9 @@ namespace DialogueManager.Editor
         {
             DrawDefaultInspector();
 
+            EditorGUILayout.Space(4);
+            if (GUILayout.Button("Open JSON Editor")) DialogueJsonEditorWindow.ShowWindow();
+
             var mgr = (DialogueManager.Runtime.DialogueManager)target;
 
             EditorGUILayout.Space(8);

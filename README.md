@@ -377,6 +377,15 @@ See `Examples/Dialogues/example_npc_dialogue.json` for a complete branching dial
 See `Examples/Scripts/example_dialogue_trigger.lua` for a Lua-side example of playing a dialogue and checking the seen flag.
 
 
+## Editor Tools
+
+Open via **JSON Editors → Dialogue Manager** in the Unity menu bar, or via the **Open JSON Editor** button in the DialogueManager Inspector.
+
+The editor is a two-panel window: file list on the left (Browse / Create New / Delete) and the definition editor on the right. Files live in `Assets/Resources/Dialogues/`.
+
+With **ODIN_INSPECTOR** active, the definition editor uses Odin's enhanced renderer.
+
+
 ## Dependencies
 
 | Dependency | Role |
